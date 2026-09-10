@@ -94,7 +94,7 @@
         <div class="glass-frame max-w-lg w-full rounded-3xl p-8 border border-white/20 shadow-2xl relative text-center space-y-6">
             
             <div class="flex flex-col items-center">
-                <!-- CUSTOM LOGO APLIKASI -->
+                <!-- LOGO APLIKASI -->
                 <div class="w-24 h-24 bg-gradient-to-tr from-cyan-600 via-blue-600 to-indigo-600 rounded-3xl p-3 shadow-xl shadow-cyan-500/30 border border-white/20 mb-4 flex items-center justify-center relative group">
                     <div class="absolute inset-0 bg-cyan-400/20 rounded-3xl blur-md group-hover:bg-cyan-400/30 transition"></div>
                     <svg class="w-full h-full text-white relative z-10 filter drop-shadow-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
@@ -151,7 +151,7 @@
                 </button>
             </div>
 
-            <!-- Tampilan Form Input PIN Petugas (Hidden Awal) -->
+            <!-- Tampilan Form Input PIN Petugas -->
             <div id="loginPinForm" class="hidden space-y-4 pt-2">
                 <div class="p-3 bg-cyan-500/10 rounded-2xl border border-cyan-400/20 text-center">
                     <i data-lucide="lock" class="w-6 h-6 text-cyan-300 mx-auto mb-1"></i>
@@ -175,7 +175,7 @@
                 </div>
             </div>
 
-            <!-- Tampilan Form Input PIN Administrator (Hidden Awal) -->
+            <!-- Tampilan Form Input PIN Administrator -->
             <div id="adminPinForm" class="hidden space-y-4 pt-2">
                 <div class="p-3 bg-purple-500/10 rounded-2xl border border-purple-400/20 text-center">
                     <i data-lucide="shield-alert" class="w-6 h-6 text-purple-300 mx-auto mb-1"></i>
@@ -203,7 +203,7 @@
         </div>
     </div>
 
-    <!-- MAIN APP WRAPPER (HIDDEN SEBELUM LOGIN) -->
+    <!-- MAIN APP WRAPPER -->
     <div id="app-wrapper" class="hidden flex-col md:flex-row min-h-screen relative">
 
         <!-- Sidebar Navigasi Kiri -->
@@ -242,13 +242,11 @@
                         <span id="nav-form-text">Tambah WBP Baru</span>
                     </button>
 
-                    <!-- Tombol Lihat Database (Hanya Tampil untuk Administrator) -->
                     <button onclick="switchPage('database')" id="nav-database" class="nav-btn hidden w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-semibold text-sm text-purple-300 hover:text-white hover:bg-purple-500/10 border border-purple-400/30 transition-all duration-300">
                         <i data-lucide="database" class="w-5 h-5"></i>
                         <span>Lihat Database (Admin)</span>
                     </button>
 
-                    <!-- Menu Khusus Warga Binaan -->
                     <button onclick="switchPage('kiosk')" id="nav-kiosk" class="nav-btn w-full flex items-center gap-3 px-4 py-3 rounded-2xl font-semibold text-sm text-amber-300/90 hover:text-amber-200 hover:bg-amber-500/10 border border-amber-400/20 transition-all duration-300">
                         <i data-lucide="search-check" class="w-5 h-5"></i>
                         <span>Portal Mandiri WBP</span>
@@ -258,7 +256,6 @@
 
             <!-- Sidebar Footer & Switch Mode Lock -->
             <div class="pt-6 border-t border-white/10 mt-6 space-y-2.5">
-                
                 <button id="btnChangePin" onclick="openChangePinModal('petugas')" class="w-full bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-400/30 px-3.5 py-2.5 rounded-2xl text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-lg shadow-indigo-500/10">
                     <i data-lucide="key" class="w-4 h-4"></i> Ubah PIN Petugas
                 </button>
@@ -406,11 +403,26 @@
                             </div>
                         </div>
 
+                        <!-- Bar Action Bar: Batch Edit -->
+                        <div class="mb-5 flex flex-col sm:flex-row justify-between items-center bg-white/5 p-4 rounded-2xl border border-white/10 gap-4">
+                            <label class="flex items-center gap-3 text-xs font-semibold text-slate-300 cursor-pointer hover:text-white transition-colors">
+                                <input type="checkbox" id="selectAllCheckbox" onchange="toggleAllRows(this)" 
+                                       class="w-4 h-4 rounded bg-slate-800 border-slate-600 text-cyan-500 focus:ring-cyan-500/50 cursor-pointer">
+                                <span>Pilih Semua Data Ditampilkan</span>
+                            </label>
+                            
+                            <button id="btnBatchEdit" onclick="openBatchModal()" disabled 
+                                    class="w-full sm:w-auto bg-slate-800 text-slate-400 px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10">
+                                <i data-lucide="check-square" class="w-4 h-4"></i> 
+                                Edit Massal (<span id="selectedCount">0</span> WBP)
+                            </button>
+                        </div>
+
                         <div class="overflow-x-auto custom-scrollbar">
                             <table class="w-full text-left text-xs border-collapse">
                                 <thead>
                                     <tr class="glass-card text-slate-300 font-bold uppercase tracking-wider border-b border-white/10">
-                                        <th class="py-3.5 px-4 rounded-l-xl">No</th>
+                                        <th class="py-3.5 px-4 text-center w-10 rounded-l-xl">#</th>
                                         <th class="py-3.5 px-4">Nama WBP</th>
                                         <th class="py-3.5 px-4">No. Reg</th>
                                         <th class="py-3.5 px-4">Mulai Ditahan</th>
@@ -487,7 +499,7 @@
                                 </div>
                             </div>
 
-                            <!-- REMISI (TAHUN, BULAN, HARI) -->
+                            <!-- REMISI -->
                             <div class="lg:col-span-2 glass-card p-4 rounded-2xl border border-emerald-500/20 bg-emerald-500/5">
                                 <label class="block text-xs font-bold text-emerald-300 mb-2 flex items-center gap-1.5">
                                     <i data-lucide="award" class="w-4 h-4"></i> Total Akumulasi Remisi (Pengurangan Pidana)
@@ -508,7 +520,7 @@
                                 </div>
                             </div>
 
-                            <!-- SUBSIDER DENDA (TAHUN, BULAN, HARI) -->
+                            <!-- SUBSIDER DENDA -->
                             <div class="lg:col-span-2 glass-card p-4 rounded-2xl border border-white/10">
                                 <label class="block text-xs font-bold text-amber-300 mb-2 flex items-center gap-1.5">
                                     <i data-lucide="coins" class="w-4 h-4"></i> Subsider Pengganti Denda
@@ -529,7 +541,7 @@
                                 </div>
                             </div>
 
-                            <!-- SUBSIDER UP (TAHUN, BULAN, HARI) -->
+                            <!-- SUBSIDER UP -->
                             <div class="lg:col-span-2 glass-card p-4 rounded-2xl border border-white/10">
                                 <label class="block text-xs font-bold text-cyan-300 mb-2 flex items-center gap-1.5">
                                     <i data-lucide="receipt" class="w-4 h-4"></i> Subsider Pengganti Uang Pengganti (UP)
@@ -596,7 +608,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 4: LIHAT DATABASE (KHUSUS ADMINISTRATOR) -->
+                <!-- PAGE 4: LIHAT DATABASE (ADMIN) -->
                 <section id="page-database" class="page-view hidden space-y-6">
                     <div class="glass-frame rounded-3xl p-6 sm:p-8 max-w-5xl mx-auto space-y-6 border border-purple-500/30">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-white/10 pb-4 gap-4">
@@ -647,7 +659,7 @@
                     </div>
                 </section>
 
-                <!-- PAGE 5: PORTAL KHUSUS WARGA BINAAN -->
+                <!-- PAGE 5: PORTAL MANDIRI WARGA BINAAN -->
                 <section id="page-kiosk" class="page-view hidden space-y-6">
                     <div class="glass-frame rounded-3xl p-6 md:p-8 max-w-4xl mx-auto border border-amber-400/20">
                         <div class="text-center max-w-xl mx-auto mb-8">
@@ -718,6 +730,63 @@
         </div>
     </div>
 
+    <!-- MODAL EDIT MASSAL (BATCH EDIT) -->
+    <div id="batchEditModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+        <div class="glass-frame max-w-md w-full rounded-3xl p-6 border border-white/20 shadow-2xl relative space-y-4">
+            <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <div class="p-2 bg-cyan-500/20 text-cyan-300 rounded-xl border border-cyan-400/30">
+                        <i data-lucide="edit-3" class="w-5 h-5"></i>
+                    </div>
+                    <h3 class="text-sm font-bold text-white">Edit Massal Status WBP</h3>
+                </div>
+                <button onclick="closeBatchModal()" class="text-slate-400 hover:text-white p-1 rounded-xl">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-300">Ubah status untuk <span id="batchCountDisplay" class="font-bold text-cyan-300">0</span> WBP terpilih. Kosongkan pilihan jika tidak ingin mengubah opsi tersebut.</p>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Status Syarat Admin</label>
+                    <select id="batchSyarat" class="w-full glass-input px-3 py-2.5 text-xs rounded-xl focus:outline-none text-white">
+                        <option value="" class="bg-slate-900">-- Biarkan / Tidak Diubah --</option>
+                        <option value="Lengkap" class="bg-slate-900">Lengkap</option>
+                        <option value="Belum Lengkap" class="bg-slate-900">Belum Lengkap</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Status Litmas Bapas</label>
+                    <select id="batchLitmas" class="w-full glass-input px-3 py-2.5 text-xs rounded-xl focus:outline-none text-white">
+                        <option value="" class="bg-slate-900">-- Biarkan / Tidak Diubah --</option>
+                        <option value="Litmas Selesai" class="bg-slate-900">Litmas Selesai</option>
+                        <option value="Proses Bapas" class="bg-slate-900">Proses Bapas</option>
+                        <option value="Belum Usul" class="bg-slate-900">Belum Usul</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-medium text-slate-300 mb-1">Status SK Integrasi</label>
+                    <select id="batchSK" class="w-full glass-input px-3 py-2.5 text-xs rounded-xl focus:outline-none text-white">
+                        <option value="" class="bg-slate-900">-- Biarkan / Tidak Diubah --</option>
+                        <option value="Belum Diusulkan" class="bg-slate-900">Belum Diusulkan</option>
+                        <option value="Proses Kanwil" class="bg-slate-900">Proses Kanwil</option>
+                        <option value="Proses Ditjenpas" class="bg-slate-900">Proses Ditjenpas</option>
+                        <option value="SK Terbit" class="bg-slate-900">SK Terbit</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-3 flex gap-2">
+                <button type="button" onclick="closeBatchModal()" class="w-1/2 glass-card hover:bg-white/10 text-slate-300 py-2.5 rounded-xl text-xs font-semibold transition">Batal</button>
+                <button type="button" onclick="applyBatchEdit()" class="w-1/2 bg-cyan-600 hover:bg-cyan-500 text-white py-2.5 rounded-xl text-xs font-semibold transition shadow-lg shadow-cyan-500/20">Terapkan Massal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT UTAMA -->
     <script>
         const initialData = [
             { id: 1, nama: "Ahmad Subagja", reg: "BI.203/2024", tglDitahan: "2024-08-15", thn: 2, bln: 6, hari: 0, remisiThn: 0, remisiBln: 3, remisiHari: 0, subDendaThn: 0, subDendaBln: 2, subDendaHari: 0, subUpThn: 0, subUpBln: 0, subUpHari: 0, statusDenda: "Jalani Subsider", syarat: "Lengkap", litmas: "Litmas Selesai", sk: "SK Terbit" },
@@ -1031,7 +1100,6 @@
         function calculateWBP(item) {
             let start = new Date(item.tglDitahan);
             
-            // 1. Pidana Pokok Hari
             let thnDays = 0;
             if (item.thn > 0) {
                 let futureYear = addMonths(start, item.thn * 12);
@@ -1039,7 +1107,6 @@
             }
             let totalPokokHari = thnDays + (item.bln * 30) + item.hari;
 
-            // 2. Remisi Hari (Pengurangan)
             let remisiThnDays = 0;
             let rThn = item.remisiThn || 0;
             let rBln = item.remisiBln || 0;
@@ -1049,11 +1116,8 @@
                 remisiThnDays = Math.round((futureRemisiYear - new Date(2000, 0, 1)) / (1000 * 60 * 60 * 24));
             }
             let totalRemisiHari = remisiThnDays + (rBln * 30) + rHari;
-
-            // Net Pokok setelah dikurangi remisi
             let netPokokHari = Math.max(0, totalPokokHari - totalRemisiHari);
 
-            // 3. Subsider Hari (Penambahan jika jalani subsider)
             let totalSubHari = 0;
             if (item.statusDenda === "Jalani Subsider") {
                 let dendaHari = ((item.subDendaThn || 0) * 365) + ((item.subDendaBln || 0) * 30) + (item.subDendaHari || 0);
@@ -1061,14 +1125,12 @@
                 totalSubHari = dendaHari + upHari;
             }
 
-            // Total hari akhir yang dijalani
             let totalHari = netPokokHari + totalSubHari;
 
             let tglBebas = addDays(start, totalHari);
             let tgl23 = addDays(start, Math.round(netPokokHari * 2 / 3) + totalSubHari);
             let tglH90 = addDays(tgl23, -90);
 
-            // Jenis usulan berdasar vonis pokok asli (> 2 tahun = PB, <= 2 tahun = CB)
             let jenis = totalPokokHari > 547 ? "PB" : "CB";
 
             let today = new Date();
@@ -1180,7 +1242,9 @@
                 let row = document.createElement("tr");
                 row.className = "hover:bg-white/5 transition-colors duration-150 border-b border-white/5";
                 row.innerHTML = `
-                    <td class="py-3.5 px-4 font-medium text-slate-500">${index + 1}</td>
+                    <td class="py-3.5 px-4 text-center">
+                        <input type="checkbox" class="wbp-checkbox w-4 h-4 rounded bg-slate-800 border-slate-600 text-cyan-500 focus:ring-cyan-500/50 cursor-pointer" value="${item.id}" onchange="updateSelectedCount()">
+                    </td>
                     <td class="py-3.5 px-4 font-bold text-white">${item.nama}</td>
                     <td class="py-3.5 px-4 text-slate-300 font-mono font-semibold">${item.reg}</td>
                     <td class="py-3.5 px-4 text-slate-400">${item.tglDitahan}</td>
@@ -1233,7 +1297,73 @@
             document.getElementById("stat-cb").innerText = countCb;
             document.getElementById("stat-sk").innerText = countSk;
 
+            updateSelectedCount();
             lucide.createIcons();
+        }
+
+        // Fungsi Batch Edit (Edit Massal)
+        function toggleAllRows(source) {
+            let checkboxes = document.querySelectorAll('.wbp-checkbox');
+            checkboxes.forEach(cb => cb.checked = source.checked);
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            let checkboxes = document.querySelectorAll('.wbp-checkbox:checked');
+            let count = checkboxes.length;
+            document.getElementById("selectedCount").innerText = count;
+            
+            let btn = document.getElementById("btnBatchEdit");
+            if (count > 0) {
+                btn.removeAttribute("disabled");
+                btn.className = "w-full sm:w-auto bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/20";
+            } else {
+                btn.setAttribute("disabled", "true");
+                btn.className = "w-full sm:w-auto bg-slate-800 text-slate-400 px-4 py-2 rounded-xl text-xs font-semibold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed border border-white/10";
+            }
+        }
+
+        function openBatchModal() {
+            let count = document.querySelectorAll('.wbp-checkbox:checked').length;
+            if (count === 0) return;
+            document.getElementById("batchCountDisplay").innerText = count;
+            document.getElementById("batchSyarat").value = "";
+            document.getElementById("batchLitmas").value = "";
+            document.getElementById("batchSK").value = "";
+            document.getElementById("batchEditModal").classList.remove("hidden");
+            document.getElementById("batchEditModal").classList.add("flex");
+        }
+
+        function closeBatchModal() {
+            document.getElementById("batchEditModal").classList.add("hidden");
+            document.getElementById("batchEditModal").classList.remove("flex");
+        }
+
+        function applyBatchEdit() {
+            let selectedIds = Array.from(document.querySelectorAll('.wbp-checkbox:checked')).map(cb => parseInt(cb.value));
+            let newSyarat = document.getElementById("batchSyarat").value;
+            let newLitmas = document.getElementById("batchLitmas").value;
+            let newSK = document.getElementById("batchSK").value;
+
+            if (!newSyarat && !newLitmas && !newSK) {
+                alert("Pilih minimal satu status yang ingin diubah!");
+                return;
+            }
+
+            dataWBP = dataWBP.map(item => {
+                if (selectedIds.includes(item.id)) {
+                    if (newSyarat) item.syarat = newSyarat;
+                    if (newLitmas) item.litmas = newLitmas;
+                    if (newSK) item.sk = newSK;
+                }
+                return item;
+            });
+
+            saveData();
+            renderTable(document.getElementById("searchBox").value);
+            closeBatchModal();
+            document.getElementById("selectAllCheckbox").checked = false;
+            alert(`Berhasil memperbarui status untuk ${selectedIds.length} WBP terpilih.`);
         }
 
         function renderKioskResult() {
@@ -1279,7 +1409,7 @@
                 let step4Done = item.sk === "SK Terbit";
 
                 html += `
-                    <div class="glass-card p-6 rounded-3xl border border-white/10 space-y-6">
+                    <div class="glass-card rounded-3xl p-6 border border-white/10 relative overflow-hidden transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/10 hover:border-cyan-500/30 group space-y-6">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-wider text-amber-300 bg-amber-400/10 px-3 py-1 rounded-full border border-amber-400/20">Identitas WBP</span>
@@ -1292,7 +1422,6 @@
                             </div>
                         </div>
 
-                        <!-- Stepper Alur Proses -->
                         <div>
                             <h4 class="text-xs font-bold text-slate-300 uppercase tracking-wider mb-4">Tahapan & Progres Berkas Integrasi</h4>
                             <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
@@ -1330,7 +1459,6 @@
                             </div>
                         </div>
 
-                        <!-- Ringkasan Pidana, Remisi & Subsider -->
                         <div class="p-4 rounded-2xl glass-card border border-amber-400/20 bg-amber-500/5 space-y-2">
                             <h4 class="text-xs font-bold text-amber-300 uppercase tracking-wider flex items-center gap-1.5">
                                 <i data-lucide="scale" class="w-4 h-4"></i> Rincian Pidana, Remisi & Subsider
@@ -1355,7 +1483,6 @@
                             </div>
                         </div>
 
-                        <!-- Ringkasan Tanggal Penting -->
                         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                             <div class="p-3.5 rounded-2xl glass-card border border-white/10">
                                 <span class="text-[11px] text-slate-400 block">Tgl Mulai Ditahan</span>
